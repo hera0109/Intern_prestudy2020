@@ -69,7 +69,6 @@ class WebPage:
             print(index, title)
             index += 1
 
-
     def author_parsing(self, authors):
         author_list = authors.split(',')
         for i in range(len(author_list)):
@@ -81,16 +80,12 @@ class WebPage:
         ret = [info_list[1], info_list[2].strip('. \n')]
         return ret
 
-
     def save_json(self, filename):
         print('save_json')
         with open(filename, 'w', encoding='utf-8') as fp:
             json.dump(self.paper_dict, fp, indent='\t')
 
 
-
-
-# json 파일로 저장해보자
 '''
 {
     "n": {
@@ -106,17 +101,17 @@ class WebPage:
 ICML97 = WebPage('http://proceedings.mlr.press/v97/')
 ICML97.ICML_crawling('#content > div.wrapper > div.paper > p.links > a:nth-child(1)')
 # ICML97.get_titles('p.title')
-ICML97.save_json('./icml2019.json')
+ICML97.save_json('../data/icml2019.json')
 
 ICML80 = WebPage('http://proceedings.mlr.press/v80/')
 ICML80.ICML_crawling('#content > div.wrapper > div.paper > p.links > a:nth-child(1)')
 # ICML97.get_titles('p.title')
-ICML80.save_json('./icml2018.json')
+ICML80.save_json('../data/icml2018.json')
 
 ICML70 = WebPage('http://proceedings.mlr.press/v70/')
 ICML70.ICML_crawling('#content > div.wrapper > div.paper > p.links > a:nth-child(1)')
 # ICML97.get_titles('p.title')
-ICML70.save_json('./icml2017.json')
+ICML70.save_json('../data/icml2017.json')
 
 
 

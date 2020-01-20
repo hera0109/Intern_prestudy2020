@@ -75,14 +75,14 @@ class WebPage:
 
 NIPS19  = WebPage('https://papers.nips.cc/book/advances-in-neural-information-processing-systems-32-2019', '2019')
 NIPS19.NIPS_crawling('body > div.main-container > div > ul > li > a:nth-child(1)')
-NIPS19.save_json('./nips2019.json')
+NIPS19.save_json('../data/nips2019.json')
 
 NIPS18  = WebPage('https://papers.nips.cc/book/advances-in-neural-information-processing-systems-32-2018', '2018')
 NIPS18.NIPS_crawling('body > div.main-container > div > ul > li > a:nth-child(1)')
-NIPS18.save_json('./nips2018.json')
+NIPS18.save_json('../data/nips2018.json')
 
 NIPS17  = WebPage('https://papers.nips.cc/book/advances-in-neural-information-processing-systems-32-2017', '2017')
 NIPS17.NIPS_crawling('body > div.main-container > div > ul > li > a:nth-child(1)')
-NIPS17.save_json('./nips2017.json')
+NIPS17.save_json('../data/nips2017.json')
 
 
