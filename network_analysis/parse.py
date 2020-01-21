@@ -29,9 +29,9 @@ class Author:
         return len(self.papers)
 
 def find_author(name):
-    if len(author_list):
+    if len(author_list) <= 0:
         return -1
-    for auhtor in author_list:
+    for author in author_list:
         if (name == author.name):
             return author.ID-1
 
@@ -52,9 +52,21 @@ def parse_json(filename):
     with open(filename) as json_file:
         data = json.load(json_file)
 
+    if 'icml' in filename:
+        flag = True
+    else:
+        flag = False
+
     for key, paper_dict in data.items():
         ID = key
-        author_names = paper_dict['authors']
+
+        if flag:
+            author_names = paper_dict['authors']
+        else:
+            temp = paper_dict['authors']
+            author_names = []
+            for i in temp:
+                author_names.append(i[0])
 
         paper = Paper(ID, paper_dict['title'], paper_dict['year'],
                 paper_dict['abstract'])
@@ -76,6 +88,17 @@ def parse_json(filename):
             author.add_paper(paper)
     # print_authors()
 
+def get_paper_count():
+    author_name = []
+    author_paper = []
+    for author in author_list:
+        author_name.append(author.name)
+        author_paper.append(author.paper_count())
 
+    ret1 = [author_name, author_paper]
+    ret2 = [[x for _,x in sorted(zip(author_paper,author_name), reverse = True)],
+            sorted(author_paper, reverse = True)]
+
+    return ret1, ret2
 
 
