@@ -37,7 +37,6 @@ def find_author(name):
 
     return -1
 
-
 def print_authors():
     for a in author_list:
         temp1 = []
@@ -100,5 +99,4 @@ def get_paper_count():
             sorted(author_paper, reverse = True)]
 
     return ret1, ret2
-
 

@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 p.parse_json('../data/icml2019.json')
 
 
+an.get_edges()
 
-print(an.co_worker_counts())
+# print(an.co_worker_counts())
 

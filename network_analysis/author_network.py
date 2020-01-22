@@ -6,6 +6,7 @@ from itertools import combinations
 
 def get_edges():
     edges = []
+    alone_author = []
     for paper in p.paper_list:
         authors = paper.authors
         author_com = list(combinations(authors, 2))
@@ -14,8 +15,11 @@ def get_edges():
                 edges.append([author1.name, author2.name])
             else:
                 edges.append([author2.name, author1.name])
+        if len(authors) == 1:
+            author = authors[0].name
+            alone_author.append(author)
 
-    return edges
+    return [edges, alone_author]
 
 def co_worker_counts():
     author_name = []
