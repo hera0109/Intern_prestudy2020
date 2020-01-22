@@ -10,6 +10,24 @@ def get_edges():
         authors = paper.authors
         author_com = list(combinations(authors, 2))
         for author1, author2 in author_com:
-            edges.append([author1.name, author2.name])
+            if (author1.name < author2.name):
+                edges.append([author1.name, author2.name])
+            else:
+                edges.append([author2.name, author1.name])
 
     return edges
+
+def co_worker_counts():
+    author_name = []
+    co_worker_count = []
+    for author in p.author_list:
+        co_worker = author.co_workers
+        temp = []
+        for co in co_worker:
+            temp.append(co)
+        co_count = len(set(temp))
+        author_name.append(author.name)
+        co_worker_count.append(co_count)
+    return [[x for _, x in sorted(zip(co_worker_count, author_name),
+        reverse = True)], sorted(co_worker_count, reverse = True)]
+    # return sorted(co_worker_count, key = lambda x: x[1], reverse = True)
