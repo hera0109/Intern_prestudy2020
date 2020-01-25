@@ -20,6 +20,7 @@ class Author:
         self.ID = ID
         self.papers = []
         self.co_workers = []
+        self.group = -1
 
     def add_paper(self, paper):
         self.papers.append(paper)

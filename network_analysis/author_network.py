@@ -35,3 +35,21 @@ def co_worker_counts():
     return [[x for _, x in sorted(zip(co_worker_count, author_name),
         reverse = True)], sorted(co_worker_count, reverse = True)]
     # return sorted(co_worker_count, key = lambda x: x[1], reverse = True)
+
+def find_other_group(G, values):
+    other_group = []
+    author_group = {}
+    i = 0
+    for name in G.nodes():
+         author_group[name] = values[i]
+         i += 1
+    for name in G.nodes():
+        n = p.find_author(name)
+        temp = set()
+        if (n >= 0):
+            author = p.author_list[n]
+            for co in author.co_workers:
+                if (author_group[name] != author_group[co.name]):
+                    temp.add(author_group[co.name])
+        other_group.append((name, len(temp)))
+    return sorted(other_group, key = lambda x: x[1], reverse = True)
