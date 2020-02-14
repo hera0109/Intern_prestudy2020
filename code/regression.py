@@ -26,7 +26,7 @@ def get_author_vector(re_authors, re_papers, years):
         author_papers = author.papers
         for p in author_papers:
             index = int(p.year) - b_year
-            author_vec[i][index] += 1/year_paper[index][1]
+            author_vec[i][index] += 1#/year_paper[index][1]
 
     print(year_paper)
     return author_vec

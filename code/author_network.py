@@ -67,9 +67,9 @@ def get_edges(author_list, paper_list):
     return [edges, alone_author]
 
 
-def get_group_edges(G, values, counts, author_list, paper_list, num):
+def get_edges_from_values(G, values, counts, author_list, paper_list, num):
     ctr = collections.Counter(values)
-    top_RG = ctr.most_common(5)
+    top_RG = ctr.most_common(num)
     top_values = []
 
     for i, count in top_RG:
@@ -92,6 +92,10 @@ def get_group_edges(G, values, counts, author_list, paper_list, num):
     for e in total_edges:
         if ((e[0] in r_authors) and (e[1] in r_authors)):
             r_edges.append(e)
+        elif ((e[0] not in r_authors) and (e[1] in r_authors)):
+            r_alone.append(e[1])
+        elif ((e[0] in r_authors) and (e[1] not in r_authors)):
+            r_alone.append(e[0])
     for a in total_alone:
         if (a in r_authors):
             r_alone.append(a)
@@ -104,6 +108,44 @@ def get_group_edges(G, values, counts, author_list, paper_list, num):
     for i in range(len(r_authors)):
         G_r.nodes[r_authors[i]]['papers'] = r_counts[i]
     return G_r, r_values
+
+def get_edges_from_topN(G, values, counts, author_list, paper_list, N):
+    top_values = sorted(values, reverse=True)[:N]
+
+    r_authors = []
+    r_counts = []
+    r_values = []
+    i = 0
+    for node in G:
+        if (values[i] in top_values):
+            r_authors.append(node)
+            r_counts.append(counts[i])
+            r_values.append(values[i])
+        i += 1
+
+    total_edges, total_alone = get_edges(author_list, paper_list)
+    r_edges = []
+    r_alone = []
+    for e in total_edges:
+        if ((e[0] in r_authors) and (e[1] in r_authors)):
+            r_edges.append(e)
+        elif ((e[0] not in r_authors) and (e[1] in r_authors)):
+            r_alone.append(e[1])
+        elif ((e[0] in r_authors) and (e[1] not in r_authors)):
+            r_alone.append(e[0])
+    for a in total_alone:
+        if (a in r_authors):
+            r_alone.append(a)
+
+    G_r = nx.MultiGraph()
+    G_r.add_edges_from(r_edges)
+    G_r.add_nodes_from(r_alone)
+
+    # Adding number of papers attribute
+    for i in range(len(r_authors)):
+        G_r.nodes[r_authors[i]]['papers'] = r_counts[i]
+    return G_r, r_values
+
 
 
 def co_worker_counts(author_list):
@@ -149,7 +191,7 @@ def make_colormap(G, sorted_authors, author_list, num):
         if (author_id >= 0 and (node in top_authors)):
             colormap.append('blue')
         else:
-            colormap.append('yellow')
+            colormap.append('ivory')
     return colormap
 
 def find_group(ID, groups):
@@ -240,4 +282,5 @@ def get_top_group(G, groups, num):
     for i in range(len(r_groups)):
         G_r.nodes[r_groups[i].ID]['authors'] = r_counts[i]
     return G_r, r_groups
+
 

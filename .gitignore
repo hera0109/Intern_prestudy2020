@@ -4,3 +4,4 @@
 *.png
 *.pdf
 data/
+code/ipynb_checkpoints

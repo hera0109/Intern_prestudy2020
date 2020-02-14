@@ -1,4 +1,5 @@
 import json
+import pandas as pd
 
 class Paper:
     def __init__(self, ID, title, year, abstract):
@@ -100,6 +101,9 @@ def parse_json(file_list):
             paper.add_authors(authors)
             for author in authors:
                 author.add_paper(paper)
+    print('Read {} files, {} papers and {} authors'.format(
+        len(file_list), len(paper_list), len(author_list)))
+
     return author_list, paper_list
         # print_authors()
 
@@ -116,3 +120,18 @@ def get_paper_count(author_list):
 
     return ret1, ret2
 
+def save_authors_csv(filename, G, values):
+    names = []
+    paper_nums = []
+    group_id = []
+    i = 0
+    for name in G:
+        names.append(name)
+        paper_nums.append(G.nodes[name]['papers'])
+        group_id.append(values[i])
+        i += 1
+    data = {'Name': names,
+            '# of Papers': paper_nums,
+            'Group id': group_id}
+    dataframe = pd.DataFrame(data)
+    dataframe.to_csv(filename)
