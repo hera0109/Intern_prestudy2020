@@ -5,3 +5,4 @@
 *.pdf
 data/
 code/.ipynb_checkpoints
+code/snapshot
