@@ -28,22 +28,23 @@ def get_author_vector(re_authors, re_papers, years):
             index = int(p.year) - b_year
             author_vec[i][index] += 1#/year_paper[index][1]
 
-    print(year_paper)
     return author_vec
 
 def get_author_regression(re_authors, re_papers, years, target):
     author_vec = get_author_vector(re_authors, re_papers, years)
-    predictions = []
+    total_vec = author_vec
 
-    for vec in author_vec:
-        line = LinearRegression()
-        line.fit(np.array(years).reshape(-1,1)
-                , np.array(vec))
-        predict = line.predict([[target]])
-        predictions.append(predict[0])
-
-    total_vec =  [author_vec[i]+[predictions[i]]
-                for i in range(len(author_vec))]
+    for t in target:
+        predictions = []
+        for vec in author_vec:
+            line = LinearRegression()
+            line.fit(np.array(years).reshape(-1,1)
+                    , np.array(vec))
+            predict = line.predict([[t]])
+            predictions.append(predict[0])
+        temp = total_vec
+        total_vec =  [temp[i]+[predictions[i]]
+                    for i in range(len(temp))]
     author_name = [author.name for author in re_authors]
 
     return [[x for _,x in sorted(zip(total_vec, author_name)
@@ -69,23 +70,25 @@ def get_group_vector(re_groups, re_papers, years):
         group_papers = group.papers
         for p in group_papers:
             index = int(p.year) - b_year
-            group_vec[i][index] += 1/year_paper[index][1]
+            group_vec[i][index] += 1#/year_paper[index][1]
 
     return group_vec
 
 def get_group_regression(re_groups, re_papers, years, target):
     group_vec = get_group_vector(re_groups, re_papers, years)
-    predictions = []
+    total_vec = group_vec
 
-    for vec in group_vec:
-        line = LinearRegression()
-        line.fit(np.array(years).reshape(-1,1)
-                , np.array(vec))
-        predict = line.predict([[target]])
-        predictions.append(predict[0])
-
-    total_vec =  [group_vec[i]+[predictions[i]]
-                for i in range(len(group_vec))]
+    for t in target:
+        predictions = []
+        for vec in group_vec:
+            line = LinearRegression()
+            line.fit(np.array(years).reshape(-1,1)
+                    , np.array(vec))
+            predict = line.predict([[t]])
+            predictions.append(predict[0])
+        temp = total_vec
+        total_vec =  [temp[i]+[predictions[i]]
+                    for i in range(len(group_vec))]
     group_id = [group.ID for group in re_groups]
 
     return [[x for _,x in sorted(zip(total_vec, group_id)

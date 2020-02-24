@@ -183,15 +183,15 @@ def find_other_group(G, values, author_list):
     return sorted(other_group, key = lambda x: x[1], reverse = True)
 
 
-def make_colormap(G, sorted_authors, author_list, num):
+def make_colormap(G, sorted_authors, author_list, num, color_l):
     colormap = []
     top_authors = sorted_authors[:num]
     for node in G:
         author_id = p.find_author(node, author_list)
         if (author_id >= 0 and (node in top_authors)):
-            colormap.append('blue')
+            colormap.append(color_l[0])
         else:
-            colormap.append('ivory')
+            colormap.append(color_l[1])
     return colormap
 
 def find_group(ID, groups):
@@ -283,4 +283,16 @@ def get_top_group(G, groups, num):
         G_r.nodes[r_groups[i].ID]['authors'] = r_counts[i]
     return G_r, r_groups
 
-
+def get_edgeN_mean(author_list, N):
+    total = 0
+    edge_num = []
+    for author in author_list:
+        num = len(author.co_workers)
+        total += num
+        edge_num.append(num)
+    
+    top_num = sorted(edge_num, reverse=True)[:N]
+    top_total = 0
+    for num in top_num:
+        top_total += num
+    return total/len(author_list), top_total/N

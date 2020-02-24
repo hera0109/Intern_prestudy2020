@@ -34,8 +34,18 @@ def find_author(name, author_list):
         return -1
     for author in author_list:
         if (name == author.name):
-            return author.ID-1
+            return author.ID
 
+    return -1
+
+def find_paper(title, paper_list):
+    if len(paper_list) <= 0:
+        return -1
+    i = 0
+    for paper in paper_list:
+        if (title == paper.title):
+            return i
+        i += 1
     return -1
 
 def paper_exists(title, paper_list):
